@@ -1,7 +1,7 @@
 """
 Módulo de ingestión de datos.
 -------------------------------------------------------------------------------
-
+Se descargan los datos y se depositan en la carpeta landing. 
 """
 
 
