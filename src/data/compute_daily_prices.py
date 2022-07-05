@@ -1,3 +1,9 @@
+"""
+Modulo precios promedios diarios:
+
+Usando el archivo precios-horarios.csv, se genera por cada fecha el precio promedio diario
+guardándolo en la ruta /data_lake/business/
+"""
 def compute_daily_prices():
     """Compute los precios promedios diarios.
 
@@ -12,10 +18,20 @@ def compute_daily_prices():
 
 
     """
-    raise NotImplementedError("Implementar esta función")
-
+    #raise NotImplementedError("Implementar esta función")
+    import pandas as pd
+    def run_compute_daily_prices(fpath_origin,fpath_destiny,fname_destiny):
+        daily_prices = pd.read_csv(fpath_origin + 'precios-horarios.csv', index_col=None, header=0)
+        daily_prices = daily_prices[['Fecha','Precio']]
+        daily_prices['Fecha'] = pd.to_datetime(daily_prices['Fecha'])
+        avg_daily_prices = daily_prices.groupby('Fecha', as_index=False).mean({'Precio':'Precio'})
+        avg_daily_prices.to_csv(fpath_destiny + fname_destiny, index=None, header=True)
+    fpath_origin ='./data_lake/cleansed/'
+    fpath_destiny = './data_lake/business/'
+    fname_destiny = 'precios-diarios.csv'
+    run_compute_daily_prices(fpath_origin,fpath_destiny,fname_destiny)
 
 if __name__ == "__main__":
     import doctest
-
+    compute_daily_prices()
     doctest.testmod()
